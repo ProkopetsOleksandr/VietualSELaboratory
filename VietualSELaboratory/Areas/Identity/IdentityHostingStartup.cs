@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Domain.EF;
+using Domain.RDBMS.Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using VietualSELaboratory.Areas.Identity.Data;
-using VietualSELaboratory.Data;
 
 [assembly: HostingStartup(typeof(VietualSELaboratory.Areas.Identity.IdentityHostingStartup))]
 namespace VietualSELaboratory.Areas.Identity
@@ -14,7 +14,7 @@ namespace VietualSELaboratory.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<AuthDbContext>(options =>
+                services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("AuthDbContextConnection")));
 
@@ -27,7 +27,7 @@ namespace VietualSELaboratory.Areas.Identity
                         options.Password.RequireNonAlphanumeric = false;
                     })
                     .AddRoles<IdentityRole>()
-                    .AddEntityFrameworkStores<AuthDbContext>();
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
             });
         }
     }
