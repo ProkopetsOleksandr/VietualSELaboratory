@@ -73,3 +73,381 @@ body {
 .login-form-icon {
     text-align: center;
 }
+
+
+
+
+
+
+
+* {
+    box-sizing: border-box;
+    border: 0px;
+    margin: 0px;
+}
+
+@import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
+
+.mainLoginInput {
+    height: 40px;
+    padding: 0px;
+    font-size: 15px;
+    margin: 5px 0;
+}
+
+    .mainLoginInput::-webkit-input-placeholder {
+        font-family: FontAwesome;
+        font-weight: normal;
+        overflow: visible;
+        vertical-align: top;
+        display: inline-block !important;
+        padding-left: 5px;
+        padding-top: 2px;
+        color: #90A0B7;
+    }
+
+    .mainLoginInput::-moz-placeholder {
+        font-family: FontAwesome;
+        font-weight: normal;
+        overflow: visible;
+        vertical-align: top;
+        display: inline-block !important;
+        padding-left: 5px;
+        padding-top: 2px;
+        color: hsl(9, 40%, 60%);
+    }
+
+    .mainLoginInput:-ms-input-placeholder {
+        font-family: Poppins;
+        font-weight: normal;
+        overflow: visible;
+        vertical-align: top;
+        /* display: inline-block !important; */
+        padding-left: 5px;
+        padding-top: 2px;
+        color: hsl(9, 40%, 60%);
+    }
+
+body {
+    margin-left: 20px;
+    margin-right: 20px;
+    height: 100vh;
+    background-size: 100%;
+    overflow-y: hidden;
+    background-color: #FAFAFA;
+}
+
+#side_bar {
+    height: 100%;
+    width: 260px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0px;
+    background-color: #FFFFFF;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+    #side_bar a {
+        text-decoration: none;
+    }
+
+        #side_bar a:hover {
+            color: #219653;
+        }
+
+#refs {
+    margin-top: 50px;
+    margin-left: 20px;
+}
+
+#tasks_ref, #statistic_ref, #help_ref, #logout_ref {
+    text-decoration: none;
+    color: #334D6E;
+    font-size: 18px;
+}
+
+#app_name {
+    font-family: "Poppins", sans-serif;
+    font-size: 28px;
+    color: #1A2E34;
+    margin-left: 20px;
+}
+
+#main {
+    margin-left: 260px;
+    font-size: 28px;
+}
+
+#search_input {
+    width: 100%;
+    height: 35px;
+}
+
+#add_button, #filter_button {
+    height: 36px;
+    width: 145px;
+    font-size: 15px;
+    float: right;
+    color: #FFFFFF;
+    background-color: #0C8524;
+    margin-top: 12px;
+}
+
+#task_list {
+    margin-top: 65px;
+}
+
+#tasks_table {
+    font-size: 18px;
+    color: #707683;
+}
+
+#tasks_table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    text-align: left;
+    background-color: #FFFF;
+}
+
+td, th {
+    padding: 0 25px 15px;
+}
+
+td {
+    padding: 20px;
+}
+
+th {
+    padding: 20px;
+}
+
+tr:first-child {
+    border-bottom: solid 2px #18BF36;
+}
+
+tr {
+    border-bottom: 1px solid #E9E9E9;
+}
+/*Create task page*/
+#create_text {
+    background-color: #FFFF;
+    height: 69px;
+    color: #0C8524;
+    padding-top: 15px;
+    padding-left: 10px;
+    font-size: 36px;
+}
+
+#work_space {
+    background-color: #FFFF;
+    margin-top: 15px;
+    height: 896px;
+    margin-left: 260px;
+}
+
+#task_name {
+    margin-top: 30px;
+    margin-left: 50px;
+    height: 38px;
+    width: 350px;
+    background-color: #FFFF;
+    border-bottom: 1px solid #0C8524;
+    font-family: Poppins;
+    color: #323C47;
+}
+
+#task_level {
+    margin-top: 30px;
+    margin-left: 150px;
+    height: 38px;
+    width: 350px;
+    background-color: #FFFF;
+    border-bottom: 1px solid #0C8524;
+    font-family: Poppins;
+    color: #323C47;
+}
+
+#task_descirption: -ms-input-placeholder {
+    font-family: Poppins;
+    font-weight: normal;
+    overflow: visible;
+    vertical-align: top;
+    /* display: inline-block !important; */
+    padding-left: 5px;
+    padding-top: 2px;
+    color: hsl(9, 40%, 60%);
+}
+
+#task_description {
+    margin-top: 30px;
+    margin-left: 51px;
+    height: 38px;
+    width: 855px;
+    background-color: #FFFF;
+    border-bottom: 1px solid #0C8524;
+    font-family: Poppins;
+    color: #323C47;
+}
+
+#question_space {
+    background-color: #E5E5E5;
+    margin-top: 30px;
+    margin-left: 51px;
+    height: 290px;
+    width: 855px;
+}
+
+#question {
+    margin-top: 30px;
+    margin-left: 31px;
+    height: 38px;
+    width: 785px;
+    border-bottom: 1px solid #0C8524;
+    font-family: Poppins;
+    color: #323C47;
+    background-color: #E5E5E5;
+}
+
+#answers {
+    margin-left: 75px;
+}
+
+#answ1, #answ2, #answ3, #answ4, #answ5, #answ6 {
+    margin-top: 13px;
+    margin-left: 31px;
+    height: 38px;
+    width: 300px;
+    border-bottom: 1px solid #0C8524;
+    font-family: Poppins;
+    color: #323C47;
+    background-color: #E5E5E5;
+}
+
+#answer_button, #canswer_button {
+    margin-top: 23px;
+    margin-left: 161px;
+    height: 25px;
+    width: 170px;
+    font-family: Poppins;
+    color: #323C47;
+    background-color: #D3D4D5;
+}
+
+#add_ques, #save_button {
+    font-family: Poppins;
+    margin-top: 23px;
+    height: 39px;
+    width: 200px;
+    font-family: Poppins;
+    color: #323C47;
+    background-color: #D3D4D5;
+}
+
+#add_ques {
+    margin-left: 450px;
+}
+
+#save_button {
+    float: right;
+    margin-right: 160px;
+    background-color: #0C8524;
+    color: #FFFF;
+}
+/*Task execution page*/
+#task_exec {
+    height: 69px;
+    color: #0C8524;
+    padding-top: 15px;
+    padding-left: 10px;
+    font-size: 36px;
+    font-family: Poppins;
+}
+
+#task_desc {
+    height: 40px;
+    color: #707683;
+    padding-top: 5px;
+    padding-left: 10px;
+    font-size: 18px;
+    font-family: Poppins;
+}
+
+#exec_div {
+    background-color: #FFFF;
+    margin-top: 15px;
+    height: 880px;
+    margin-left: 260px;
+    text-align: center;
+}
+
+#question_s {
+    color: #192A3E;
+    font-family: Poppins;
+    font-size: 24px;
+    padding-top: 30px;
+}
+
+#all_answer {
+    margin-top: 30px;
+    width: 400px;
+    height: 350px;
+    background-color: #E5E5E5;
+    display: inline-block;
+}
+
+#correct_answer {
+    margin-left: 55px;
+    margin-top: 30px;
+    width: 400px;
+    height: 350px;
+    background-color: #E5E5E5;
+    display: inline-block;
+}
+
+#p_all {
+    border-bottom: solid 2px #18BF36;
+    background-color: #FFFF;
+    text-align: left;
+    width: 390px;
+    font-size: 24px;
+    color: #707683;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+#p_ans {
+    background-color: #FFFF;
+    text-align: left;
+    width: 390px;
+    font-size: 18px;
+    color: #707683;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    font-weight: lighter;
+}
+
+#cancel_button, #finish_button {
+    font-family: Poppins;
+    margin-top: 23px;
+    height: 39px;
+    width: 100px;
+    font-family: Poppins;
+    color: #323C47;
+    background-color: #D3D4D5;
+}
+
+#cancel_button {
+    margin-left: 730px;
+}
+
+#finish_button {
+    float: right;
+    margin-right: 100px;
+    background-color: #0C8524;
+    color: #FFFF;
+}
