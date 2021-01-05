@@ -2,13 +2,15 @@
 using Domain.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace VietualSELaboratory.ServiceExtension
+namespace VietualSELaboratory.Extensions
 {
     public static class ServiceExtension
     {
         public static void AddCustomServices(this IServiceCollection services)
         {
             services.AddScoped<IExerciseService, ExerciseService>();
+            services.AddScoped<ILevelService, LevelService>();
+            services.AddScoped<IQuestionService, QuestionService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)

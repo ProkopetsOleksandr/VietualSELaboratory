@@ -1,0 +1,241 @@
+﻿@using Domain
+@using VietualSELaboratory.Extensions
+@model VietualSELaboratory.ViewModel.ExerciseViewModel
+
+
+@{
+    var taskNames = EnumExtensions.GetDescriptions(typeof(Enums.TaskName));
+}
+
+@if (Model.Exercise.Id == 0)
+{
+    <p id="create_text">Створити завдання</p>
+}
+else
+{
+    <p id="create_text">Редагування завдання (id: @Model.Exercise.Id)</p>
+    <h2></h2>
+}
+
+
+<form>
+    <div class="form-group">
+        @Html.LabelFor(e => e.Exercise.Name)
+        @Html.DropDownListFor(e => e.Exercise.Name, new SelectList(taskNames, "Value", "Text"), "Task name", new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.Exercise.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(e => e.Exercise.LevelId)
+        @Html.DropDownListFor(e => e.Exercise.LevelId, new SelectList(Model.Levels, "Id", "Name"), "Оберіть рівень складності", new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.Exercise.LevelId)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(e => e.Exercise.Description)
+        @Html.TextBoxFor(m => m.Exercise.Description, new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.Exercise.Description)
+    </div>
+
+    <div id="questions_block">
+        <div id="question1" class="question_space">
+            <input type="text" class="question_input" placeholder="Question" data-id="1" onkeyup="onQuestionTextEdit(this)">
+            <div id="answers">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" name="correct" class="answer" placeholder="Correct answer">
+                            <button type="button" class="btn btn-success" data-id="1" onclick="onAddCorrectAnswer(this)">Add</button>
+                            <ul class="list-group correct">
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="incorrect" class="answer" placeholder="Answer">
+                            <button type="button" class="btn btn-success" data-id="1" onclick="onAddIncorrectAnswer(this)">Add</button>
+                            <ul class="list-group incorrect">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-danger" data-id="1" onclick="deleteQuestion(this)">Delete question</button>
+        </div>
+    </div>
+
+    <button type="button" id="add_ques" class="btn btn-info">Add question</button>
+    <button type="button" id="sendRequestBtn" class="btn btn-info">Create</button>
+</form>
+
+
+
+<button onclick="test();">TEST</button>
+
+
+
+
+@await Html.PartialAsync("_ValidationScriptsPartial")
+
+<script>
+    //first
+    var question = {
+        Id: 1,
+        Text: "",
+        Correct: [],
+        Incorrect: []
+    };
+
+    var viewModel = {
+        1: question
+    };
+
+
+    $(document).ready(function() {
+        var questionsBlock = $("#questions_block");
+
+
+        $("#add_ques").on("click",
+            function() {
+                var previousValue = parseInt(Object.keys(viewModel)[Object.keys(viewModel).length - 1]);
+                var nextId = previousValue ? previousValue + 1 : 1;
+
+                questionsBlock.append(
+                    "<div id='question" +
+                    nextId +
+                    "' class='question_space'>" +
+                    "<input type='text' class='question_input' placeholder='Question'>" +
+                    "<div id='answers'>" +
+                    "<div class='container'>" +
+                    "<div class='row'>" +
+                    "<div class='col-md-6'>" +
+                    "<input type='text' name='correct' class='answer' placeholder='Correct answer'>" +
+                    "<button type='button' class='btn btn-success' data-id='" + nextId + "' onclick='onAddCorrectAnswer(this)'>Add</button>" +
+                    "<ul class='list-group correct'></ul>" +
+                    "</div>" +
+                    "<div class='col-md-6'>" +
+                    "<input type='text' name='incorrect' class='answer' placeholder='Answer'>" +
+                    "<button type='button' class='btn btn-success' data-id='" + nextId + "' onclick='onAddIncorrectAnswer(this)'>Add</button>" +
+                    "<ul class='list-group incorrect'></ul>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "<button type='button' class='btn btn-danger' data-id='" + nextId + "' onclick='deleteQuestion(this)'>Delete question</button>" +
+                    "</div>"
+                );
+
+                var newQuestion = {
+                    Id: nextId,
+                    Text: "",
+                    Correct: [],
+                    Incorrect: []
+                };
+
+                viewModel[nextId] = newQuestion;
+                console.log(viewModel);
+            });
+
+        $("#sendRequestBtn").on("click",
+            function () {
+
+                var data = {};
+                data['QuestionViewModels'] = Object.values(viewModel);
+                data['Exercise'] = getExerciseData();
+
+
+                $.ajax({
+                    url: "/Task/Save",
+                    dataType: 'text',
+                    cache: false,
+                    method: "POST",
+                    data: data,
+                    success: function () {
+                        console.log("here");
+                        var url = '@Url.Action("Index", "Task")';
+                        window.location.href = url;
+                    },
+                    error: function (e) {
+                        console.log("error");
+                        console.log(e);
+                    }
+                });
+            });
+    });
+
+    function getExerciseData() {
+        return data = {
+            Name: $("#Exercise_Name").val(),
+            LevelId: $("#Exercise_LevelId").val(),
+            Description: $("#Exercise_Description").val()
+        }
+    }
+
+    function deleteQuestion(e) {
+        var id = $(e).data("id");
+        delete viewModel[id];
+        $("#question" + id).remove();
+        console.log(viewModel);
+    }
+
+    function onAddCorrectAnswer(e) {
+        var id = $(e).data("id");
+        var text = $("#question" + id).find("input[name='correct']").val();
+
+        if (!text) {
+            return;
+        }
+
+        $("#question" + id).find("input[name='correct']").val("");
+        $("#question" + id).find("ul.correct").append("<li class='list-group-item'>" + text + "</li>");
+
+        viewModel[id].Correct.push(text);
+        console.log(viewModel);
+    }
+
+    function onAddIncorrectAnswer(e) {
+        var id = $(e).data("id");
+        var text = $("#question" + id).find("input[name='incorrect']").val();
+
+        if (!text) {
+            return;
+        }
+
+        $("#question" + id).find("input[name='incorrect']").val("");
+        $("#question" + id).find("ul.incorrect").append("<li class='list-group-item'>" + text + "</li>");
+
+        viewModel[id].Incorrect.push(text);
+        console.log(viewModel);
+    }
+
+    function onQuestionTextEdit(e) {
+        var id = $(e).data("id");
+        var text = e.value;
+        viewModel[id].Text = text;
+        console.log(viewModel);
+    }
+
+    function checkViewModel() {
+        var errors = [];
+
+        if (Object.keys(viewModel).length == 0) {
+            errors.push("Завдання не має жодного питання");
+        }
+
+        for (var key in viewModel) {
+            var value = viewModel[key];
+
+            if (!value.Text) {
+                errors.push("Вкажіть заголовок для питання #" + key);
+            }
+
+            if (value.Correct.length = 0) {
+                errors.push("Питання #" + key + "не має жодної правильної відповіді");
+            }
+        }
+
+        return errors;
+    }
+</script>
+
+
+
+

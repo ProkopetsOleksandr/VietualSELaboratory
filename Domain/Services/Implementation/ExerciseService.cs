@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Domain.RDBMS;
 using Domain.RDBMS.Entities;
@@ -37,6 +38,11 @@ namespace Domain.Services.Implementation
         public async Task<Exercise> GetExerciseByIdAsync(int id)
         {
             return await _exerciseRepository.FindByIdAsync(id);
+        }
+
+        public IQueryable<Exercise> GetExercisesAsQueryable()
+        {
+            return _exerciseRepository.GetAll();
         }
 
         public async Task<bool> RemoveExerciseAsync(int id)

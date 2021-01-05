@@ -4,14 +4,16 @@ using Domain.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace VietualSELaboratory.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210105132302_AddQuestionsAnswers")]
+    partial class AddQuestionsAnswers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +33,6 @@ namespace VietualSELaboratory.Migrations
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -111,14 +110,14 @@ namespace VietualSELaboratory.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f073095e-5df7-473f-92c2-771934f0ce61",
+                            ConcurrencyStamp = "800defa0-7de6-48de-bab4-14519f77df3f",
                             Email = "admin@lpnu.ua",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN@LPNU.UA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBLhvRFjzbTxfeqURsJdGuhkHdL946gDcY81FbG0KkC+XjAcx6o5NLIU27oSoIGbiQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPvxY6NOnxaKgrkch8L/4s++Ihw7sHMIomj+PdvHPkKcLUaaPd627nLglVXQp0ogzQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5aa504d8-6f2f-4534-a4bf-fa0585037ffa",
+                            SecurityStamp = "7254da7a-2090-4bcf-a812-fe6dcfab129f",
                             TwoFactorEnabled = false,
                             UserName = "admin@lpnu.ua"
                         });
@@ -207,14 +206,14 @@ namespace VietualSELaboratory.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "9a685bc2-07ac-4f73-aaff-3bf6592dbd4f",
+                            ConcurrencyStamp = "b9c2769d-9c56-453a-951e-92457d39afdd",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
-                            Id = "781fc741-fbc0-424a-bfb0-5c05595588ae",
-                            ConcurrencyStamp = "baf620bc-abae-4ffc-ab3d-3aa42d0ffad0",
+                            Id = "3dd9c389-096c-456e-ae1e-a3b911f0a4fc",
+                            ConcurrencyStamp = "ec23babf-1c57-4df6-927d-dbdde849cf36",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         });
