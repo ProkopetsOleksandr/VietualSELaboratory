@@ -1,0 +1,58 @@
+﻿@using Domain.RDBMS.Entities
+@model VietualSELaboratory.ViewModel.ExerciseViewViewModel
+
+
+<div class="form-group">
+    @Html.LabelFor(e => e.Exercise.Name)
+    @Html.DisplayTextFor(m => m.Exercise.Name)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(e => e.Exercise.LevelId)
+    @Html.DisplayTextFor(m => m.Exercise.Level.Name)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(e => e.Exercise.Description)
+    @Html.DisplayTextFor(m => m.Exercise.Description)
+</div>
+
+<div id="questions_block">
+    @foreach (Question question in Model.Questions)
+    {
+        <div class="question_space">
+            <p>@question.Text</p>
+            <div id="answers">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group correct">
+                                @foreach (var answer in question.Answers)
+                                {
+                                    if (answer.IsCorrect)
+                                    {
+                                        <li class="list-group-item">@answer.Text</li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group incorrect">
+                                @foreach (var answer in question.Answers)
+                                {
+                                    if (!answer.IsCorrect)
+                                    {
+                                        <li class="list-group-item">@answer.Text</li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+

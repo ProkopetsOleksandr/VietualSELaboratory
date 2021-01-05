@@ -20,6 +20,7 @@
             <th>Name</th>
             <th>Level</th>
             <th>Description</th>
+            <th>Actions</th>
         </tr>
         @foreach (var item in Model)
         {
@@ -27,6 +28,7 @@
                 <td style="color: #323C47;">@item.Name</td>
                 <td>@item.LevelId</td>
                 <td>@item.Description</td>
+                <td><a class="btn btn-primary" href="/Task/View?taskId=@item.Id">View</a></td>
             </tr>
         }
     </table>

@@ -37,7 +37,11 @@ namespace Domain.Services.Implementation
 
         public async Task<Exercise> GetExerciseByIdAsync(int id)
         {
-            return await _exerciseRepository.FindByIdAsync(id);
+            return await _exerciseRepository
+                .GetAll()
+                .Include(m => m.Level)
+                .Where(m => m.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         public IQueryable<Exercise> GetExercisesAsQueryable()

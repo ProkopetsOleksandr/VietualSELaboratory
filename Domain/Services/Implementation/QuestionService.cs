@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.RDBMS;
 using Domain.RDBMS.Entities;
 using Domain.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Domain.Services.Implementation
@@ -16,11 +18,17 @@ namespace Domain.Services.Implementation
             _answerRepository = answerRepository;
         }
 
+        public async Task<List<Question>> GetQuestionsWithAnswers(int exerciseId)
+        {
+            return await _questionRepository.GetAll().Include(m => m.Answers).ToListAsync();
+        }
+
         public async Task SaveQuestionAsync(int exerciseId, QuestionViewModel viewModel)
         {
             var question = new Question()
             {
-                ExerciseId = exerciseId
+                ExerciseId = exerciseId,
+                Text = viewModel.Text
             };
 
             _questionRepository.Add(question);
