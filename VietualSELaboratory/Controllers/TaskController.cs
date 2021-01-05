@@ -42,6 +42,20 @@ namespace VietualSELaboratory.Controllers
             return View("TaskForm", viewModel);
         }
 
+        public async Task<ActionResult> View(int taskId)
+        {
+            var exercise = await _exerciseService.GetExerciseByIdAsync(taskId);
+            var questions = await _questionService.GetQuestionsWithAnswers(exercise.Id);
+
+            var viewModel = new ExerciseViewViewModel()
+            {
+                Exercise = exercise,
+                Questions = questions
+            };
+
+            return View(viewModel);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Save(SaveExerciseViewModel viewModel)
         {

@@ -66,17 +66,7 @@ else
     <button type="button" id="sendRequestBtn" class="btn btn-info">Create</button>
 </form>
 
-
-
-<button onclick="test();">TEST</button>
-
-
-
-
-@await Html.PartialAsync("_ValidationScriptsPartial")
-
 <script>
-    //first
     var question = {
         Id: 1,
         Text: "",
@@ -102,7 +92,7 @@ else
                     "<div id='question" +
                     nextId +
                     "' class='question_space'>" +
-                    "<input type='text' class='question_input' placeholder='Question'>" +
+                    "<input type='text' class='question_input' placeholder='Question' data-id='1' onkeyup='onQuestionTextEdit(this)'>" +
                     "<div id='answers'>" +
                     "<div class='container'>" +
                     "<div class='row'>" +
