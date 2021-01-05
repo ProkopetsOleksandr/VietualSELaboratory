@@ -133,7 +133,6 @@ body {
     margin-right: 20px;
     height: 100vh;
     background-size: 100%;
-    overflow-y: hidden;
     background-color: #FAFAFA;
 }
 
@@ -292,17 +291,14 @@ tr {
     color: #323C47;
 }
 
-#question_space {
+.question_space {
     background-color: #E5E5E5;
     margin-top: 30px;
-    margin-left: 51px;
-    height: 290px;
     width: 855px;
 }
 
-#question {
-    margin-top: 30px;
-    margin-left: 31px;
+.question_input {
+    margin: 19px 0 26px 15px;
     height: 38px;
     width: 785px;
     border-bottom: 1px solid #0C8524;
@@ -312,13 +308,10 @@ tr {
 }
 
 #answers {
-    margin-left: 75px;
+    padding-bottom: 22px;
 }
 
-#answ1, #answ2, #answ3, #answ4, #answ5, #answ6 {
-    margin-top: 13px;
-    margin-left: 31px;
-    height: 38px;
+.answer {
     width: 300px;
     border-bottom: 1px solid #0C8524;
     font-family: Poppins;
@@ -329,25 +322,10 @@ tr {
 #answer_button, #canswer_button {
     margin-top: 23px;
     margin-left: 161px;
-    height: 25px;
     width: 170px;
     font-family: Poppins;
     color: #323C47;
     background-color: #D3D4D5;
-}
-
-#add_ques, #save_button {
-    font-family: Poppins;
-    margin-top: 23px;
-    height: 39px;
-    width: 200px;
-    font-family: Poppins;
-    color: #323C47;
-    background-color: #D3D4D5;
-}
-
-#add_ques {
-    margin-left: 450px;
 }
 
 #save_button {

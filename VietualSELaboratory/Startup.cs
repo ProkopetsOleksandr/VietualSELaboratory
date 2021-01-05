@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VietualSELaboratory.ServiceExtension;
+using VietualSELaboratory.Extensions;
 
 namespace VietualSELaboratory
 {
@@ -23,6 +23,7 @@ namespace VietualSELaboratory
 
             services.AddCustomServices();
             services.AddRepositories();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +51,7 @@ namespace VietualSELaboratory
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Task}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

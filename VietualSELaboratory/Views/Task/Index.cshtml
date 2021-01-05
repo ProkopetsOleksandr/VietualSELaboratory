@@ -1,0 +1,37 @@
+﻿@using Domain.RDBMS.Entities
+@using ReflectionIT.Mvc.Paging 
+
+@model PagingList<Exercise>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+
+<input type="text" class="mainLoginInput" id="search_input" placeholder="&#61442; Search for a tasks">
+
+<input type="button" id="filter_button" value="Filter">
+<a href="Task/Create" class="btn btn-link">Add new task</a>
+
+<div id="task_list">
+    <table id="tasks_table">
+        <tr>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Description</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="color: #323C47;">@item.Name</td>
+                <td>@item.LevelId</td>
+                <td>@item.Description</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<nav aria-label="Tasks paging">
+    @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model })
+</nav>

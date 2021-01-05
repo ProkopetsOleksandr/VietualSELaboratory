@@ -15,6 +15,8 @@ namespace Domain.EF
 
         public DbSet<Exercise> Task { get; set; }
         public DbSet<Level> Level { get; set; }
+        public DbSet<Question> Question { get; set; }
+        public DbSet<Answer> Answer { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
