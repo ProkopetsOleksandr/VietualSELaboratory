@@ -139,13 +139,8 @@ else
                     method: "POST",
                     data: data,
                     success: function () {
-                        console.log("here");
                         var url = '@Url.Action("Index", "Task")';
                         window.location.href = url;
-                    },
-                    error: function (e) {
-                        console.log("error");
-                        console.log(e);
                     }
                 });
             });
@@ -163,7 +158,6 @@ else
         var id = $(e).data("id");
         delete viewModel[id];
         $("#question" + id).remove();
-        console.log(viewModel);
     }
 
     function onAddCorrectAnswer(e) {
@@ -178,7 +172,6 @@ else
         $("#question" + id).find("ul.correct").append("<li class='list-group-item'>" + text + "</li>");
 
         viewModel[id].Correct.push(text);
-        console.log(viewModel);
     }
 
     function onAddIncorrectAnswer(e) {
@@ -193,14 +186,12 @@ else
         $("#question" + id).find("ul.incorrect").append("<li class='list-group-item'>" + text + "</li>");
 
         viewModel[id].Incorrect.push(text);
-        console.log(viewModel);
     }
 
     function onQuestionTextEdit(e) {
         var id = $(e).data("id");
         var text = e.value;
         viewModel[id].Text = text;
-        console.log(viewModel);
     }
 
     function checkViewModel() {

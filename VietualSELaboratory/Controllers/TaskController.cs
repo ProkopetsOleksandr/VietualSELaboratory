@@ -68,5 +68,11 @@ namespace VietualSELaboratory.Controllers
 
             return Content("Success");
         }
+
+        public async Task<ActionResult> Execute(int taskId)
+        {
+            var exercise = await _exerciseService.GetExerciseByIdAsync(taskId);
+            return View(exercise);
+        }
     }
 }
