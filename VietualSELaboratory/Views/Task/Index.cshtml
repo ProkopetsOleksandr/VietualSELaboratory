@@ -1,5 +1,6 @@
 ﻿@using Domain.RDBMS.Entities
-@using ReflectionIT.Mvc.Paging 
+@using VietualSELaboratory.Utils
+@using ReflectionIT.Mvc.Paging
 
 @model PagingList<Exercise>
 @{
@@ -12,7 +13,11 @@
 <input type="text" class="mainLoginInput" id="search_input" placeholder="&#61442; Search for a tasks">
 
 <input type="button" id="filter_button" value="Filter">
-<a href="Task/Create" class="btn btn-link">Add new task</a>
+
+@if (User.IsInRole(Constants.ApplicationRoles.Teacher))
+{
+    <a href="/Task/Create" class="btn btn-link">Add new task</a>
+}
 
 <div id="task_list">
     <table id="tasks_table">
@@ -29,6 +34,7 @@
                 <td>@item.LevelId</td>
                 <td>@item.Description</td>
                 <td><a class="btn btn-primary" href="/Task/View?taskId=@item.Id">View</a></td>
+                <td><a class="btn btn-primary" href="/Task/Execute?taskId=@item.Id">Execute</a></td>
             </tr>
         }
     </table>

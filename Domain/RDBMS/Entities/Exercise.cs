@@ -1,4 +1,6 @@
-﻿namespace Domain.RDBMS.Entities
+﻿using System.Collections.Generic;
+
+namespace Domain.RDBMS.Entities
 {
     public class Exercise: IEntityBase
     {
@@ -8,5 +10,6 @@
         public int LevelId { get; set; }
 
         public virtual Level Level { get; set; }
+        public virtual List<Question> Questions { get; set; }
     }
 }

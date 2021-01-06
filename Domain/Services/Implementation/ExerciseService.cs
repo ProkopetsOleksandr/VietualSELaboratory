@@ -40,6 +40,8 @@ namespace Domain.Services.Implementation
             return await _exerciseRepository
                 .GetAll()
                 .Include(m => m.Level)
+                .Include(m => m.Questions)
+                .ThenInclude(m => m.Answers)
                 .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
         }

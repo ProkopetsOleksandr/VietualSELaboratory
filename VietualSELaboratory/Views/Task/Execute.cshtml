@@ -1,0 +1,187 @@
+﻿@model Domain.RDBMS.Entities.Exercise
+
+
+
+<h1>Task execution</h1>
+<p>@Model.Description</p>
+
+
+<p id="question_text"></p>
+
+<div class="hero">
+    <div class="wrapper">
+        <ul class="list">
+            <li class="list_caption">All answers</li>
+            <li class="list_caption">Correct answers</li>
+            <li class="list_caption">Incorrect answers</li>
+            <li id="all_answers" class="list_cell js-cell"></li>
+            <li id="correct_answers" class="list_cell js-cell"></li>
+            <li id="incorrect_answers" class="list_cell js-cell"></li>
+        </ul>
+    </div>
+</div>
+
+
+<button id="nextQuestionBtn" type="button" class="btn btn-primary" disabled onclick="nextQuestion();">Next Question</button>
+
+<!--need to save last viewModelItem before save-->
+<button id="finishBtn" type="button" class="btn btn-primary" disabled onclick="finishTask();">Finish</button>
+
+
+<script>
+    var correctAnswersCell = "correct_answers";
+
+    var viewModelItem = {
+        questionId: 1,
+        correct: [],
+        incorrect: []
+    };
+
+    //Add taskId
+    var viewModel = [];
+
+    var model = @Html.Raw(Json.Serialize(Model));
+    var currentQuestion = null;
+    var currentViewModelItem = null;
+
+    $(document).ready(function() {
+        nextQuestion();
+    });
+
+    function nextQuestion() {
+        clearCells();
+
+        if (currentViewModelItem) {
+            viewModel.push(currentViewModelItem);
+            currentViewModelItem = null;
+        }
+
+        //get next element
+
+        currentQuestion = model.questions.shift();
+
+        //set currentViewModelItem
+        currentViewModelItem = {
+            questionId: currentQuestion.id,
+            all: currentQuestion.answers.map(element => element.id), //all ids
+            correct: [],
+            incorrect: [],
+        };
+
+        //show question & answers
+        $("#question_text").html(currentQuestion.text);
+        for (var key in currentQuestion.answers) {
+            var answer = currentQuestion.answers[key];
+            $("#all_answers").append("<div class='list_card js-card' draggable='true' data-answer-id=" + answer.id + ">" + answer.text + "</div>");
+        }
+
+        $("#nextQuestionBtn").attr("disabled", true);
+        dragAndDrop();
+
+        if (model.questions.length === 0) {
+            $("#nextQuestionBtn").attr("disabled", true);
+            $("#finishBtn").attr("disabled", false);
+            return;
+        }
+    }
+
+    function dragAndDrop() {
+        var cards = document.querySelectorAll(".js-card");
+        var cells = document.querySelectorAll(".js-cell");
+
+        let draggedItem = null;
+
+        for (var i = 0; i < cards.length; i++) {
+            const card = cards[i];
+
+            card.addEventListener("dragstart",
+                function(e) {
+                    setTimeout(function() {
+                            draggedItem = card;
+                            var element = e.target;
+                            element.classList.add("hide");
+                        },
+                        0);
+                });
+
+            card.addEventListener("dragend",
+                function() {
+                    draggedItem.classList.remove("hide");
+                    draggedItem = null;
+                });
+
+            cells.forEach(function(cell) {
+                cell.addEventListener("dragover",
+                    function(evt) {
+                        evt.preventDefault();
+                    });
+
+                cell.addEventListener("dragenter",
+                    function(evt) {
+                        evt.preventDefault();
+                        this.classList.add("hovered");
+                    });
+
+                cell.addEventListener("dragleave",
+                    function(evt) {
+                        evt.preventDefault();
+                        this.classList.remove("hovered");
+                    });
+
+                cell.addEventListener("drop",
+                    function () {
+                        if (!draggedItem) {
+                            return;
+                        }
+
+                        this.append(draggedItem);
+                        this.classList.remove("hovered");
+
+                        var answerId = $(draggedItem).data("answer-id");
+
+                        var cellId = $(cell).attr("id");
+
+                        if (cellId === "all_answers" && currentViewModelItem.all.indexOf(answerId) === -1) {
+                            currentViewModelItem.correct = currentViewModelItem.correct.filter(m => m !== answerId);
+                            currentViewModelItem.incorrect = currentViewModelItem.incorrect.filter(m => m !== answerId);
+                            currentViewModelItem.all.push(answerId);
+                        } else if (cellId === "correct_answers" && currentViewModelItem.correct.indexOf(answerId) === -1) {
+                            currentViewModelItem.all = currentViewModelItem.all.filter(m => m !== answerId);
+                            currentViewModelItem.incorrect = currentViewModelItem.incorrect.filter(m => m !== answerId);
+                            currentViewModelItem.correct.push(answerId);
+                        } else if (cellId === "incorrect_answers" && currentViewModelItem.incorrect.indexOf(answerId) === -1) {
+                            currentViewModelItem.all = currentViewModelItem.all.filter(m => m !== answerId);
+                            currentViewModelItem.correct = currentViewModelItem.correct.filter(m => m !== answerId);
+                            currentViewModelItem.incorrect.push(answerId);
+                        }
+
+
+                        if (currentViewModelItem.all.length === 0 && model.questions.length !== 0) {
+                            $("#nextQuestionBtn").attr("disabled", false);
+                        } else {
+                            $("#nextQuestionBtn").attr("disabled", true);
+                        }
+                    });
+            });
+        }
+    }
+
+    function finishTask() {
+        viewModel.push(currentViewModelItem);
+        currentViewModelItem = null;
+
+        viewModel.forEach(function(model) {
+            delete model.all;
+        });
+
+        console.log(viewModel);
+    }
+
+
+    function clearCells() {
+        $("#all_answers").empty();
+        $("#correct_answers").empty();
+        $("#incorrect_answers").empty();
+    }
+</script>
+
