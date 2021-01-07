@@ -197,7 +197,7 @@ namespace VietualSELaboratory.Migrations
                     b.Property<double>("Grade")
                         .HasColumnType("float");
 
-                    b.Property<int>("TaskId")
+                    b.Property<int>("ExerciseId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")

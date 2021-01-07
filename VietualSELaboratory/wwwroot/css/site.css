@@ -479,3 +479,13 @@ tr {
 .hovered {
     background-color: #d1d8e2;
 }
+
+
+/* Overview */
+.answer-mistake {
+    background-color: #dc143c;
+}
+
+.answer-correct {
+    background-color: #0c8524;
+}

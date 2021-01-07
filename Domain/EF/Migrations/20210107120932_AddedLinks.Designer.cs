@@ -4,14 +4,16 @@ using Domain.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace VietualSELaboratory.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210107120932_AddedLinks")]
+    partial class AddedLinks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,14 +113,14 @@ namespace VietualSELaboratory.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "89fc373e-0dca-4b30-9e96-c2a0336e28ba",
+                            ConcurrencyStamp = "3ef8de56-9574-4b28-9fca-9baa9decb46e",
                             Email = "admin@lpnu.ua",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN@LPNU.UA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE1aQVXWLFCf0Fvv208d7xyggOByGQTKvbdNC1915D+40GpqSy7JivN/26+tjdLNXQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOJ/ftFUKQsai9scAMin6K9OxLJgpCCwHsPcOjcSziv34cN2v1hcZE+TYCSPpywexw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "15e4690b-45ca-408e-87db-e5619bae8034",
+                            SecurityStamp = "2b4aba8c-6151-4169-8797-5c182a0ee5bb",
                             TwoFactorEnabled = false,
                             UserName = "admin@lpnu.ua"
                         });
@@ -192,11 +194,14 @@ namespace VietualSELaboratory.Migrations
                     b.Property<DateTime>("ExecutionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ExerciseId")
+                    b.Property<int?>("ExerciseId")
                         .HasColumnType("int");
 
                     b.Property<double>("Grade")
                         .HasColumnType("float");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
@@ -266,14 +271,14 @@ namespace VietualSELaboratory.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "d38d3283-4f4f-47db-b980-090af18f63e8",
+                            ConcurrencyStamp = "f6d005a5-e9ef-4ca3-9eac-20d1580a1715",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
-                            Id = "65da722c-c411-433e-afc3-45da25907314",
-                            ConcurrencyStamp = "03bd6a1c-f54d-4d85-a37a-1b466afb369f",
+                            Id = "a3c4d037-8f8d-4b4f-b94f-efd5eefd71d2",
+                            ConcurrencyStamp = "94bd864b-57c8-4d58-96dd-5273b7da2f91",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         });
@@ -425,9 +430,7 @@ namespace VietualSELaboratory.Migrations
                 {
                     b.HasOne("Domain.RDBMS.Entities.Exercise", "Exercise")
                         .WithMany()
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("ExerciseId");
                 });
 
             modelBuilder.Entity("Domain.RDBMS.Entities.UserAnswers", b =>

@@ -11,6 +11,7 @@ namespace VietualSELaboratory.Extensions
             services.AddScoped<IExerciseService, ExerciseService>();
             services.AddScoped<ILevelService, LevelService>();
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IStatisticsService, StatisticsService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)

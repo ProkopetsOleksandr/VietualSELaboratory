@@ -1,0 +1,32 @@
+﻿@model ReflectionIT.Mvc.Paging.PagingList<Domain.RDBMS.Entities.Statistics>
+
+
+<div id="task_list">
+    <table id="tasks_table">
+        <tr>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Description</th>
+            <th>Grade</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="color: #323C47;">@item.Exercise.Name</td>
+                <td>@item.Exercise.LevelId</td>
+                <td>@item.Exercise.Description</td>
+                <td>@item.Grade</td>
+                <td>
+                    <a class="btn btn-primary" href="/Statistics/TaskOverview?statisticsId=@item.Id">Overview</a>
+                    <a class="btn btn-primary" href="#">Graphic</a>
+                </td>
+
+            </tr>
+        }
+    </table>
+</div>
+
+<nav aria-label="Tasks paging">
+    @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model })
+</nav>

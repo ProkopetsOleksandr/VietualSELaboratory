@@ -14,7 +14,6 @@ namespace VietualSELaboratory.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: true),
-                    TaskId = table.Column<int>(nullable: false),
                     Grade = table.Column<double>(nullable: false),
                     ExecutionDate = table.Column<DateTime>(nullable: false)
                 },
