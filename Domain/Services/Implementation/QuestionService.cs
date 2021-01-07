@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Domain.RDBMS;
 using Domain.RDBMS.Entities;
@@ -20,7 +21,7 @@ namespace Domain.Services.Implementation
 
         public async Task<List<Question>> GetQuestionsWithAnswers(int exerciseId)
         {
-            return await _questionRepository.GetAll().Include(m => m.Answers).ToListAsync();
+            return await _questionRepository.GetAll().Where(m => m.ExerciseId == exerciseId).Include(m => m.Answers).ToListAsync();
         }
 
         public async Task SaveQuestionAsync(int exerciseId, QuestionViewModel viewModel)

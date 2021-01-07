@@ -13,5 +13,7 @@ namespace Domain.Services.Interfaces
         Task<int> AddExerciseAsync(Exercise exercise);
         Task<bool> RemoveExerciseAsync(int id);
         Task<bool> UpdateExerciseAsync(Exercise exercise);
+        Task SaveExecution(string userId, SaveExecutionViewModel viewModel);
+        Task<int[]> GetCompletedExercisesIds(string userId);
     }
 }

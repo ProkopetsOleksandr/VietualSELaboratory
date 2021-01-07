@@ -2,7 +2,7 @@
 @using VietualSELaboratory.Utils
 @using ReflectionIT.Mvc.Paging
 
-@model PagingList<Exercise>
+@model VietualSELaboratory.ViewModel.ShowTasksViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -25,21 +25,34 @@
             <th>Name</th>
             <th>Level</th>
             <th>Description</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Exercises)
         {
             <tr>
                 <td style="color: #323C47;">@item.Name</td>
                 <td>@item.LevelId</td>
                 <td>@item.Description</td>
-                <td><a class="btn btn-primary" href="/Task/View?taskId=@item.Id">View</a></td>
-                <td><a class="btn btn-primary" href="/Task/Execute?taskId=@item.Id">Execute</a></td>
+
+                @if (Model.CompletedTasksIds.Contains(item.Id))
+                {
+                    <td>Completed</td>
+                    <td><a class="btn btn-primary" href="/Task/View?taskId=@item.Id">View</a></td>
+                }
+                else
+                {
+                    <td>New</td>
+                    <td>
+                        <a class="btn btn-primary" href="/Task/View?taskId=@item.Id">View</a>
+                        <a class="btn btn-primary" href="/Task/Execute?taskId=@item.Id">Execute</a>
+                    </td>
+                }
             </tr>
         }
     </table>
 </div>
 
 <nav aria-label="Tasks paging">
-    @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model })
+    @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model.Exercises })
 </nav>
