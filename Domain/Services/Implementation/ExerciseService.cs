@@ -12,9 +12,19 @@ namespace Domain.Services.Implementation
     public class ExerciseService : IExerciseService
     {
         private readonly IRepository<Exercise> _exerciseRepository;
-        public ExerciseService(IRepository<Exercise> exerciseRepository)
+        private readonly IRepository<Statistics> _statisticsRepository;
+        private readonly IRepository<Question> _questionRepository;
+        private readonly IRepository<UserAnswers> _userAnswersRepository;
+        public ExerciseService(
+            IRepository<Exercise> exerciseRepository, 
+            IRepository<Statistics> statisticsRepository, 
+            IRepository<Question> questionRepository,
+            IRepository<UserAnswers> userAnswersRepository)
         {
             _exerciseRepository = exerciseRepository;
+            _statisticsRepository = statisticsRepository;
+            _questionRepository = questionRepository;
+            _userAnswersRepository = userAnswersRepository;
         }
 
         public async Task<int> AddExerciseAsync(Exercise exercise)
@@ -33,6 +43,14 @@ namespace Domain.Services.Implementation
         public async Task<List<Exercise>> GetAllExercisesAsync()
         {
             return await _exerciseRepository.GetAll().ToListAsync();
+        }
+
+        public async Task<int[]> GetCompletedExercisesIds(string userId)
+        {
+            return await _statisticsRepository
+                .GetAll()
+                .Where(m => m.UserId == userId)
+                .Select(m => m.TaskId).ToArrayAsync();
         }
 
         public async Task<Exercise> GetExerciseByIdAsync(int id)
@@ -64,11 +82,51 @@ namespace Domain.Services.Implementation
             return affectedRows > 0;
         }
 
+        public async Task SaveExecution(string userId, SaveExecutionViewModel viewModel)
+        {
+            var grade = GetGrade(viewModel.Answers);
+            var statistics = new Statistics()
+            {
+                TaskId = viewModel.ExerciseId,
+                UserId = userId,
+                Grade = grade,
+                ExecutionDate = DateTime.Now
+            };
+
+            _statisticsRepository.Add(statistics);
+            await _statisticsRepository.SaveChangesAsync();
+
+            foreach (var answer in viewModel.Answers)
+            {
+                _userAnswersRepository.Add(new UserAnswers()
+                {
+                    StatisticsId = statistics.Id,
+                    QuestionId = answer.QuestionId,
+                    CorrectAnswers = string.Join(",", answer.Correct),
+                    IncorrectAnswers = string.Join(",", answer.Incorrect)
+                }); 
+            }
+
+            await _userAnswersRepository.SaveChangesAsync();
+        }
+
         public async Task<bool> UpdateExerciseAsync(Exercise exercise)
         {
             _exerciseRepository.Update(exercise);
             var affectedRows = await _exerciseRepository.SaveChangesAsync();
             return affectedRows > 0;
+        }
+
+        private double GetGrade(List<SaveAnswerViewModel> answers)
+        {
+            var ids = answers.Select(m => m.QuestionId);
+            var questions = _questionRepository
+                .GetAll()
+                .Include(m => m.Answers)
+                .Where(m => ids.Contains(m.Id));
+
+            // this is temporary approach
+            return questions.Count();
         }
     }
 }

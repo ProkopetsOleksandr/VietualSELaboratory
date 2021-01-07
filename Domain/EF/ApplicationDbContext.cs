@@ -17,6 +17,8 @@ namespace Domain.EF
         public DbSet<Level> Level { get; set; }
         public DbSet<Question> Question { get; set; }
         public DbSet<Answer> Answer { get; set; }
+        public DbSet<Statistics> Statistics { get; set; }
+        public DbSet<UserAnswers> UserAnswers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

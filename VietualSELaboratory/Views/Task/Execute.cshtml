@@ -41,6 +41,7 @@
     var viewModel = [];
 
     var model = @Html.Raw(Json.Serialize(Model));
+    console.log(model);
     var currentQuestion = null;
     var currentViewModelItem = null;
 
@@ -129,7 +130,7 @@
                     });
 
                 cell.addEventListener("drop",
-                    function () {
+                    function() {
                         if (!draggedItem) {
                             return;
                         }
@@ -174,7 +175,21 @@
             delete model.all;
         });
 
-        console.log(viewModel);
+        var data = {};
+        data["Answers"] = viewModel;
+        data["ExerciseId"] = model.id;
+
+        $.ajax({
+            url: "/Task/SaveExecution",
+            dataType: 'text',
+            cache: false,
+            method: "POST",
+            data: data,
+            success: function() {
+                var url = '@Url.Action("Index", "Task")';
+                window.location.href = url;
+            }
+        });
     }
 
 
