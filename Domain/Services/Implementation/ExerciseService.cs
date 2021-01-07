@@ -50,7 +50,7 @@ namespace Domain.Services.Implementation
             return await _statisticsRepository
                 .GetAll()
                 .Where(m => m.UserId == userId)
-                .Select(m => m.TaskId).ToArrayAsync();
+                .Select(m => m.ExerciseId).ToArrayAsync();
         }
 
         public async Task<Exercise> GetExerciseByIdAsync(int id)
@@ -87,7 +87,7 @@ namespace Domain.Services.Implementation
             var grade = GetGrade(viewModel.Answers);
             var statistics = new Statistics()
             {
-                TaskId = viewModel.ExerciseId,
+                ExerciseId = viewModel.ExerciseId,
                 UserId = userId,
                 Grade = grade,
                 ExecutionDate = DateTime.Now

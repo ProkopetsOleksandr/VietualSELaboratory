@@ -1,0 +1,60 @@
+﻿@model Domain.RDBMS.Entities.Statistics
+Task name: @Model.Exercise.Name
+Grade: @Model.Grade
+
+<div id="questions_block">
+    @foreach (var question in Model.Exercise.Questions)
+    {
+        <div class="question_space">
+            <p>@question.Text</p>
+            <div id="answers">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group correct">
+
+                                @{
+                                    var correctUserAnswers = Model.UserAnswers.FirstOrDefault(m => m.QuestionId == question.Id).CorrectAnswers.Split(",").Select(Int32.Parse).ToList();
+                                    var incorrectUserAnswers = Model.UserAnswers.FirstOrDefault(m => m.QuestionId == question.Id).IncorrectAnswers.Split(",").Select(Int32.Parse).ToList();
+                                }
+                                @foreach (var answer in question.Answers)
+                                {
+                                    if (answer.IsCorrect)
+                                    {
+                                        if (correctUserAnswers.Contains(answer.Id))
+                                        {
+                                            <li class="list-group-item answer-correct">@answer.Text</li>
+                                        }
+                                        else
+                                        {
+                                            <li class="list-group-item answer-mistake">@answer.Text</li>
+                                        }
+
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group incorrect">
+                                @foreach (var answer in question.Answers)
+                                {
+                                    if (!answer.IsCorrect)
+                                    {
+                                        if (incorrectUserAnswers.Contains(answer.Id))
+                                        {
+                                            <li class="list-group-item answer-correct">@answer.Text</li>
+                                        }
+                                        else
+                                        {
+                                            <li class="list-group-item answer-mistake">@answer.Text</li>
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

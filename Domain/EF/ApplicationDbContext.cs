@@ -29,6 +29,7 @@ namespace Domain.EF
 
             builder.ApplyConfiguration(new TaskConfiguration());
             builder.ApplyConfiguration(new LevelConfiguration());
+            builder.ApplyConfiguration(new ExerciseConfiguration());
 
             builder.SeedRolesAndUsers();
         }
